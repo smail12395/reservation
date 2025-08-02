@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation</title>
+    <link rel="stylesheet" href="./dist/output.css">
+<style>
+  .sideBar {
+    transition: width 0.5s ease;
+  }
+
+  .menuButtons {
+    transition: all 0.5s ease;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .hideText {
+    opacity: 0;
+    max-width: 0;
+  }
+
+  .showText {
+    opacity: 1;
+    max-width: 200px; /* يمكن تعديله حسب الحجم المناسب */
+  }
+  @media (max-width: 767px){
+    .meduim-abouve:hover {
+      border: solid 1px black;
+      background-color: white;
+
+  }
+  }
+@keyframes spin-pause {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  50.1% {
+    transform: rotate(360deg);
+  }
+  75% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+.animate-spin-pause {
+  animation: spin-pause 1s infinite ease-in-out;
+}
+</style>
+</head>
+<body class="selection:bg-amber-400">
+<div id="preloader" class="fixed inset-0 z-50 bg-white flex items-center justify-center transition-opacity duration-700 ease-in-out">
+  <svg class="animate-spin-pause opacity-100 transition-opacity duration-700" id="logo-preloader" width="129px" height="129px" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--noto" preserveAspectRatio="xMidYMid meet" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#ffffff" d="M43.22 32.72l.8 62.85l41.77-.27l-.8-64.87z"></path><path fill="#115E59" d="M42.68 37.74l10.14-5.86l23.44.57l-33.71 23.1z"></path><path fill="#115E59" d="M43.22 67.23l42.3-28.87l-.27 19.34l-42.17 29.41z"></path><path fill="#115E59" d="M49.93 95.3l35.46-25.11l-.54 18.53l-13.3 9.54z"></path><path fill="#c8c8c8" d="M40.53 32.45l.81 64.06l3.89-1.48l-.8-64.06z"></path><path fill="#c8c8c8" d="M83.24 31.37l.4 63.93l3.87-.44L87 31.24z"></path><path d="M40.05 33.09c.64.71 45.97.16 46.76-.24c.79-.4 4.81-3.73 4.5-9.05c-.31-5.25-3.94-6.91-3.94-6.91s-.7-5.26-6.75-9.29c-4.29-2.86-9.85-3.69-16.83-3.63c-7.7.07-14.93.54-19.53 5.14c-4.42 4.42-4.6 8.73-4.6 8.73s-3.91 1.2-3.91 7.08c-.01 5.8 4.3 8.17 4.3 8.17z" fill="#c8c8c8"></path><path d="M40.76 94.46c-.66.55-.79 3.97-.79 3.97s-3.71 2-3.18 6.35c.48 3.89 3.73 5.4 3.73 5.4s1.52 6.58 6.59 10.16c5.4 3.81 10.72 3.97 18.34 3.97c8.26 0 13.89-.64 18.34-4.84c5.1-4.83 5.48-9.84 5.48-9.84s2.94-1.75 2.86-5.72c-.08-3.97-3.33-5.48-3.33-5.48s-.68-3.17-1.27-3.97c-.3-.41-12.16-.3-23.82-.24c-11.25.05-22.44-.19-22.95.24z" fill="#c8c8c8"></path><path d="M61.57 120.42c-.08 1.59 8.33 1.55 14.53.16c7.07-1.59 9.37-7.62 8.97-8.1c-.4-.48-7.54-.32-7.94.08c-.4.4-2.22 4.13-5.32 5.4c-3.1 1.27-10.18 1.25-10.24 2.46z" fill="#858585"></path><path d="M37.04 105.83l54.95-.25s-.18 1.16-.93 2.29c-.73 1.09-1.78 1.75-1.78 1.75l-48.72.57s-1.46-.79-2.09-1.57c-1.39-1.72-1.43-2.79-1.43-2.79z" fill="#858585"></path><path d="M36.8 103.1l55.14-.71s-.18-1.45-1.16-2.54c-.82-.92-1.98-1.43-1.98-1.43l-49.54.48s-1 .74-1.59 1.59c-.71 1.03-.87 2.61-.87 2.61z" fill="#e1e0e0"></path><path d="M35.94 22.86s11.02-2.16 27.14-2.4c16.12-.24 27.73.71 27.73.71s-.57-1.9-1.45-2.85s-1.98-1.43-1.98-1.43s-15.11-.55-24.25-.63c-11.04-.09-23.47 1.58-23.47 1.58s-1.33.38-2.23 1.55c-1.28 1.65-1.49 3.47-1.49 3.47z" fill="#e1e0e0"></path><path d="M35.76 25.96s8.58-1.68 27.71-1.92s27.83 1.15 27.83 1.15s.08 1.16-.3 2.27c-.42 1.24-1.08 2.06-1.08 2.06s-16.45-1.1-26.45-1.02s-26.32 1.66-26.32 1.66s-.69-1.19-.93-1.9c-.23-.74-.46-2.3-.46-2.3z" fill="#858585"></path><path d="M60.56 19.45c0 .85-5.63 1.35-11.61 1.71c-3.35.2-9.26 1.85-9.26-.36s2.14-2.63 9.4-2.78s11.47.29 11.47 1.43z" fill="#ffffff"></path><path d="M60.99 6.28c.19.54-2.85 1.57-5.2 4.06c-1.66 1.76-2.21 3.42-3.35 3.85s-7.26 1-7.34-.28c-.1-1.78 1.18-4.6 4.2-6.27c4.78-2.65 11.33-2.36 11.69-1.36z" fill="#ffffff"></path></g></svg>
+</div>
+
+<div id="main-content" class="opacity-0 transition-opacity duration-700">
+<div class="flex min-h-screen">
+<section class="sideBar fixed top-0 left-0 h-full w-[300px] bg-teal-800">
+
+
+     <div class="m-2 flex items-center justify-center gap-[65px]">
+        <svg class="cursor-pointer" fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-38.27 -38.27 459.21 459.21" width="30px" height="30px" xml:space="preserve" transform="matrix(-1, 0, 0, 1, 0, 0)rotate(0)" stroke="#fff"><g id="SVGRepo_bgCarrier" stroke-width="0"><path transform="translate(-38.27, -38.27), scale(14.350312500000001)" d="M16,30.40798411092588C17.992011565053808,30.781827859823196,19.992834889104,29.93592852262007,21.90304208905807,29.258449609928793C23.9028180516358,28.549204013542237,26.101255421141808,27.949454439351925,27.479856479369403,26.336509201982974C28.855746132699586,24.726736272940464,29.43003956282889,22.49969780082549,29.48909105818996,20.382871369085095C29.54426360546561,18.4050940805435,28.443305172796936,16.631482934841586,27.80281220391104,14.75947444932354C27.27037805469198,13.203296171439558,26.621016315762425,11.74743315280219,26.011830638102914,10.219666886010343C25.319140048055683,8.482480087948767,25.187600880335687,6.464829838201833,23.939879844729287,5.071692931001145C22.648594890714147,3.629914940717333,20.791138221098137,2.7628781385852195,18.913328238094795,2.293868252265442C17.012961030171244,1.819224376569063,14.970071252098348,1.7765076877608919,13.101729637396016,2.364709986684245C11.27860335121149,2.9386773298738804,9.80208529538033,4.252951654668541,8.437983916220357,5.591777779973471C7.174637586606472,6.831715732705947,6.556467300280344,8.5324156726472,5.4280007373908745,9.896253379860088C4.083405873612094,11.521298584080192,1.3682724565147701,12.341515376949674,1.120052672610612,14.43605451536118C0.8731100047574333,16.51981703673194,3.2806519740764664,17.95723572483552,4.252305439074458,19.81705734817289C5.074455624638089,21.39071786380254,5.238780876593735,23.3003572869949,6.436094477287472,24.6113792119328C7.631547926925924,25.920364328121714,9.491356104489926,26.294801229920836,11.007364996153179,27.213641817321356C12.715613729970345,28.24899740041738,14.036756916658192,30.039539385428817,16,30.40798411092588" fill="#115E59" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M249.888,188.385c-4.823-24.522-46.884-39.054-56.646-20.663c-9.762-18.392-51.829-3.859-56.658,20.663 c-6.323,25.654-39.754,32.719-58.338,19.337c0,28.971,31.219,29.356,50.533,31.202c45.745-2.01,60.189-23.098,64.463-32.731 c4.262,9.646,18.707,30.722,64.458,32.731c19.325-1.846,50.526-2.242,50.526-31.202 C289.636,221.104,256.216,214.028,249.888,188.385z"></path> <path d="M193.242,88.324c7.987,0,14.479,6.486,14.479,14.485c0,7.993-6.493,14.479-14.479,14.479 c-7.999,0-14.486-6.486-14.486-14.479C178.756,94.811,185.244,88.324,193.242,88.324z"></path> <path d="M193.254,268.934c7.987,0,14.468,6.469,14.468,14.468c0,7.987-6.481,14.468-14.468,14.468 c-7.993,0-14.474-6.48-14.474-14.468C178.78,275.403,185.261,268.934,193.254,268.934z"></path> <path d="M370.687,199.07c0.105-2.499,0.374-4.963,0.374-7.485c0-2.242-0.245-4.432-0.327-6.668 c0.888-4.326,3.06-8.752,5.139-12.839c2.055-4.572,4.215-8.659,4.67-10.977c1.893-7.678-2.568-12.284-7.473-15.273 c-3.492-2.161-7.17-3.573-9.482-5.179c-1.308-4.396-2.86-8.676-4.495-12.933c-0.468-4.595-0.023-9.604,0.374-14.182 c0.595-5.074,1.389-9.687,1.132-12.057c-2.184-13.464-16.371-12.086-23.038-13.762c-2.651-3.708-5.372-7.38-8.291-10.86 c-4.391-8.285-4.776-21.188-7.158-25.036c-6.002-12.424-19.35-6.06-26.087-5.634c-3.725-2.674-7.555-5.162-11.479-7.532 c-6.551-6.901-11.549-18.176-14.818-21.574c-5.406-5.698-11.841-4.227-16.896-2.032c-3.702,1.605-6.901,3.97-9.54,5.155 c-4.602-1.36-9.271-2.61-14.024-3.625c-8.279-4.169-16.301-13.44-20.4-15.192c-7.006-3.206-12.553-0.351-16.64,3.404 c-2.954,2.966-5.214,6.276-7.31,8.238c-4.735,0.204-9.447,0.467-14.071,1.027c-9.295-1.016-20.125-7.578-24.621-7.695 c-7.724-0.969-12.115,3.346-14.602,8.676c-1.875,3.719-2.966,7.573-4.35,10.031c-4.321,1.676-8.513,3.556-12.652,5.564 c-9.353,1.711-21.498-0.274-26.092,0.619c-7.76,1.413-10.019,7.607-10.941,13.037c-0.678,4.017-0.444,8.046-0.894,10.889 c-3.626,3.088-7.176,6.229-10.539,9.593c-7.975,4.735-20.47,6.218-24.032,8.833c-11.765,7.152-4.483,19.816-3.433,26.536 c-2.365,3.959-4.578,7.999-6.65,12.15c-2.843,3.439-7.029,6.323-10.714,9.026c-4.017,3.036-7.853,5.605-9.382,7.426 c-5.395,5.821-3.386,12.098-0.648,16.99c2.067,3.585,4.507,6.54,5.827,9.026c-0.958,4.595-1.618,9.266-2.225,13.966 c-3.772,8.67-11.695,17.662-13.703,21.941c-4.367,12.792,8.478,18.374,13.592,23.01c0.602,4.822,1.255,9.656,2.248,14.351 c-0.455,9.226-6.014,20.295-5.728,24.674c-0.432,13.768,14.1,14.585,20.341,17.364c2.032,4.156,4.221,8.197,6.551,12.179 c1.354,4.263,1.494,9.354,1.733,13.931c0.333,5.021,0.409,9.657,1.075,11.911c1.938,7.706,8.291,9.435,13.873,9.832 c4.151,0.233,7.976-0.21,10.812,0.069c3.299,3.293,6.791,6.365,10.317,9.389c5.354,7.742,8.25,19.828,10.93,23.576 c4.647,6.143,10.895,6.283,16.283,4.904c4.041-1.214,7.643-3.07,10.416-3.771c4.187,2.066,8.431,3.994,12.769,5.733 c3.661,2.511,6.936,6.224,9.855,9.879c3.299,3.877,6.253,7.286,8.192,8.677c3.129,2.276,6.229,3,9.073,2.768 c2.896-0.456,5.535-1.857,7.905-3.492c3.392-2.336,6.16-5.185,8.524-6.68c4.607,0.572,9.277,0.888,13.989,1.121 c8.991,3.002,18.636,10.404,23.074,11.795c7.485,2.65,12.425-1.904,15.822-6.225c2.453-3.246,4.181-6.703,5.921-8.934 c4.694-0.98,9.271-2.241,13.837-3.572c9.354-0.176,20.891,3.9,25.456,3.736c7.684-0.537,11.21-5.71,12.985-10.977 c1.203-4.028,1.611-8.08,2.545-10.801c3.877-2.301,7.684-4.707,11.374-7.299c4.192-1.833,9.225-2.627,14.024-3.082 c5.044-0.689,9.54-1.25,11.747-2.114c7.415-2.662,8.921-8.815,8.688-14.608c-0.093-4.145-0.958-8.057-0.876-10.859 c2.92-3.434,5.629-7.018,8.279-10.685c1.623-1.354,3.352-2.627,5.348-3.725c2.195-1.413,4.543-2.651,6.82-3.772 c4.577-2.265,8.886-4.133,10.73-5.628c10.055-9.167,1.227-20.271-1.027-26.775c1.693-4.344,3.316-8.7,4.694-13.195 c4.554-8.104,15.04-15.367,16.896-19.454C387.246,212.102,374.891,204.488,370.687,199.07z M192.168,350.744 c-87.759,0-159.159-71.405-159.159-159.159c0-87.748,71.399-159.147,159.159-159.147c87.765,0,159.17,71.411,159.17,159.159 C351.338,279.35,279.933,350.744,192.168,350.744z"></path> <path d="M193.254,41.038c-82.89,0-150.319,67.424-150.319,150.313c0,82.884,67.429,150.296,150.319,150.296 c82.873,0,150.296-67.424,150.296-150.296C343.55,108.45,276.126,41.038,193.254,41.038z M193.254,332.038 c-77.571,0-140.692-63.104-140.692-140.687c0-77.577,63.109-140.691,140.692-140.691c77.571,0,140.685,63.115,140.685,140.691 C333.939,268.934,270.813,332.038,193.254,332.038z"></path> </g> </g> </g></svg>
+        <a href="#" class="font-extrabold text-white">Reservation</a>
+        <svg class="minimize text-white w-[30px] h-[30px] hover:text-teal-400 transition duration-300 cursor-pointer"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polyline points="4 14 10 14 10 20"></polyline> <polyline points="20 10 14 10 14 4"></polyline> <line x1="14" y1="10" x2="21" y2="3"></line> <line x1="3" y1="21" x2="10" y2="14"></line> </g></svg>
+      </div>
+
+
+    <nav class="flex flex-col">
+            <div class="">
+                           <!-- Calendar -->
+             <div id="calendarButton" class="divsOfMenuButtons flex items-center space-x-2 p-1 m-1 text-white hover:bg-teal-700 rounded transition duration-500 cursor-pointer">
+                    <svg class="cursor-pointer" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 9H21M9 15L11 17L15 13M7 3V5M17 3V5M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    <a href="" class="menuButtons showText">Calendar</a>
+             </div>
+             <!-- Services -->
+             <div class="divsOfMenuButtons flex items-center space-x-2 p-1 m-1 text-white hover:bg-teal-700 rounded transition duration-500 cursor-pointer">
+                    <svg class="cursor-pointer" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"> <path d="M3 6H21M3 12H21M3 18H21" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <a href="" class="menuButtons showText">Services</a>
+             </div>
+             <!-- Customers -->
+             <div class="divsOfMenuButtons flex items-center space-x-2 p-1 m-1 text-white hover:bg-teal-700 rounded transition duration-500 cursor-pointer">
+                    <svg class="cursor-pointer" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H7C5.93913 15 4.92172 15.4214 4.17157 16.1716C3.42143 16.9217 3 17.9391 3 19V21M11 11C12.6569 11 14 9.65685 14 8C14 6.34315 12.6569 5 11 5C9.34315 5 8 6.34315 8 8C8 9.65685 9.34315 11 11 11Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <a href="" class="menuButtons showText">Customers</a>
+             </div>
+            <!-- Setting -->
+            <div class="divsOfMenuButtons flex items-center space-x-2 p-1 m-1 text-white hover:bg-teal-700 rounded transition duration-500 cursor-pointer"> 
+                   <svg class="cursor-pointer" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">   <path d="M10.325 4.317C10.58 3.41 11.42 3.41 11.675 4.317L12.235 6.317C12.396 6.902 12.962 7.29 13.574 7.29H15.685C16.631 7.29 17.059 8.48 16.366 9.053L14.796 10.317C14.335 10.695 14.149 11.337 14.31 11.923L14.87 13.923C15.125 14.83 14.194 15.52 13.501 14.947L11.931 13.683C11.47 13.305 10.53 13.305 10.069 13.683L8.499 14.947C7.806 15.52 6.875 14.83 7.13 13.923L7.69 11.923C7.851 11.337 7.665 10.695 7.204 10.317L5.634 9.053C4.941 8.48 5.369 7.29 6.315 7.29H8.426C9.038 7.29 9.604 6.902 9.765 6.317L10.325 4.317ZM12 17.25C12.966 17.25 13.75 18.034 13.75 19C13.75 19.966 12.966 20.75 12 20.75C11.034 20.75 10.25 19.966 10.25 19C10.25 18.034 11.034 17.25 12 17.25Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                   <a href="" class="menuButtons showText">Setting</a>
+            </div>
+            </div>
+
+             <div class="divsOfMenuButtons flex items-center space-x-2 fixed bottom-0 left-0 p-1 m-1 text-white hover:bg-teal-700 rounded-2xl transition duration-500 cursor-pointer">
+                    <svg class="cursor-pointer" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H7C5.93913 15 4.92172 15.4214 4.17157 16.1716C3.42143 16.9217 3 17.9391 3 19V21M11 11C12.6569 11 14 9.65685 14 8C14 6.34315 12.6569 5 11 5C9.34315 5 8 6.34315 8 8C8 9.65685 9.34315 11 11 11Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <a href="" class="menuButtons showText">Your Account</a>
+             </div>
+    </nav>
+  </section>
+
+
+
+  <section class="content relative flex-1 ml-[300px] transition-x ease-in-out duration-[0.5s]">
+
+
+    <div class="flex flex-col">
+       <div class="flex justify-between"> 
+
+        <svg class="backSvg w-[20px] h-[20px] cursor-pointer m-4 " fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" xmlns:x="&amp;ns_extend;" xmlns:i="&amp;ns_ai;" xmlns:graph="&amp;ns_graphs;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" viewBox="0 0 42 42" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon fill-rule="evenodd" points="31,38.32 13.391,21 31,3.68 28.279,1 8,21.01 28.279,41 "></polygon> </g></svg>  
+        <h1 class="Today cursor-pointer p-4 mb-4 text-center text-extrabold text-2xl">TODAY</h1> 
+        <svg class="nextSvg w-[20px] h-[20px] cursor-pointer m-4" fill="#000000" height="64px" width="64px" version="1.1" id="XMLID_287_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="next"> <g> <polygon points="6.8,23.7 5.4,22.3 15.7,12 5.4,1.7 6.8,0.3 18.5,12 "></polygon> </g> </g> </g></svg> 
+      
+      </div>
+       <div class="flex "> 
+             <div class="w-[100px] md:w-[80px] bg-gray-300 flex flex-col">
+              <a href="" class="pt-0 py-2 text-center text-extralight text-teal-900">8:00 AM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-15 ">9:00 AM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">10:00 AM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">11:00 AM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">12:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">1:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">2:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">3:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">4:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">5:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">6:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">7:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">8:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">9:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">10:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-18 ">11:00 PM</a>
+              <a href="" class="py-2 text-center text-extralight text-teal-900 mt-19 ">12:00 AM</a>
+       </div>
+
+              <div class="relative calendarHour w-full grid grid-cols-1 ">
+                <div class="borderTime absolute border-[2px] border-teal-800 w-full "></div>
+                <div class="borderTime exactTime absolute right-2 px-4 bg-teal-800 rounded-lg text-white"></div>
+                
+              </div>
+              <div class="relative hidden calendarHour-tommorow w-full grid-cols-1 ">
+                <div class="borderTime absolute border-[2px] border-teal-800 w-full "></div>
+                <div class="borderTime exactTime absolute right-2 px-4 bg-teal-800 rounded-lg text-white"></div>
+                
+              </div>
+
+
+       </div>
+    </div>
+
+
+
+
+    <!--DROPDOWN INPUT-->
+    <div class="dropdown hidden relative">
+           <div class="flex gap-4 mt-2">
+              <label><input type="radio" name="dayChoice" value="today" checked> Today</label>
+              <label><input type="radio" name="dayChoice" value="tomorrow"> Tomorrow</label>
+          </div>
+           <button class="dropdownBtn w-full focus:outline-none text-white px-4 py-2 rounded-md bg-teal-800 hover:bg-teal-700 cursor-pointer transition duration-200">
+             Select Your Reservation Time <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>
+           </button>
+           <div class="dropdownMenu hidden absolute w-full bg-white shadow-2xl h-[300px] overflow-y-scroll">
+             <div class="dropdownchoises py-3 space-y-1">
+     
+             </div>
+           </div>
+      <input class="m-4 border-1 border-teal-800 p-1" type="text" placeholder="Write your name" id="inputUser">
+    </div>
+
+
+    <div class="alertCalendar transition-all duration-500 transform fixed z-50  bottom-0 left-0 m-4 p-4 opacity-0 scale-90 hidden"></div>
+  </section>
+</div>
+
+<script>
+
+// PRELOAD LOGO
+window.addEventListener("load", function () {
+  const preloader = document.getElementById("preloader");
+  const logo = document.getElementById("logo-preloader");
+  const mainContent = document.getElementById("main-content");
+  setTimeout(() => {
+    preloader.classList.add("opacity-0");
+    logo.classList.add("opacity-0");
+    mainContent.classList.remove("opacity-0");
+  }, 2000); 
+
+  setTimeout(() => {
+    preloader.style.display = "none";
+  }, 2000); 
+});
+
+
+  //MAKE BUTTOM MENU IN THE SIDEBAR ACTIVE
+window.onload = () => {
+  const pageTitle = document.title.toLowerCase();
+  const calendarBtn = document.getElementById("calendarButton");
+  if (pageTitle.includes("reservation")) {
+    calendarBtn.classList.add("bg-teal-700"); 
+  }
+
+
+// Get API OF TIME
+let today;
+
+fetch("https://timeapi.io/api/Time/current/zone?timeZone=Africa/Casablanca")
+  .then(res => res.json())
+  .then(data => {
+    const { year, month, day, hour, minute } = data;
+
+    today = new Date(year, month - 1, day, hour, minute);
+
+    console.log("Actual time from timeapi.io:", `${hour}:${minute}`);
+
+    // GET THE RIGHT DATE
+    startCalendar(today);
+  })
+  .catch(err => {
+    console.warn("API DOESN'T WORK");
+    
+    today = new Date();
+    startCalendar(today);
+  });
+
+function startCalendar(today) {
+
+      let toDayHour = today.getHours();
+      let toDayMinute = today.getMinutes();
+      console.log( "today date","Hour:", toDayHour, "minute:", toDayMinute);
+      let tomorrow = new Date(today);     
+      tomorrow.setDate(tomorrow.getDate() + 1); 
+
+
+// BUTTOM OF ADDED A NEW RESERVATION "+"
+const content = document.querySelector(".content");
+addButton = document.createElement("button");
+addButton.className = "absolute text-white text-xl bottom-4 right-4 pr-4 pl-4 pt-2 pb-3 m-4 bg-teal-800 rounded-sm hover:bg-teal-700 fixed cursor-pointer";
+addButton.textContent = "+";
+content.appendChild(addButton);
+
+
+let saveReservations = [];
+
+
+const inputUser = document.getElementById("inputUser");
+const parentModel = document.createElement("div");
+const model = document.createElement("div");
+const buttomDel = document.createElement("button");
+const titleModel = document.createElement("h1");
+const divButtoms = document.createElement("div");
+const buttomReserve = document.createElement("button");
+const dropdown = document.querySelector(".dropdown");
+const dropdownBtn = document.querySelector(".dropdownBtn");
+const dropdownMenu = document.querySelector(".dropdownMenu");
+
+
+
+let workingHours = 16;
+let calendarStartHour = 8; 
+// GET THE VALUE SELECTED 
+let selectedTime = null;
+let selectedTimeTomorrow = null;
+let NewTimeAppear = null;
+
+// BUILD DROP DOWN CHOISES FOR FOR DROP DOWN INPUT
+dropdownBtn.addEventListener("click",()=>{
+  dropdownMenu.classList.toggle("hidden");
+})
+
+const dropdownchoises = document.querySelector(".dropdownchoises")
+for (let i = 0; i < workingHours; i++) {
+  hourBlock = calendarStartHour + i;
+  hourBlock <= 23? hourBlock = calendarStartHour + i : hourBlock = "0";
+  for(let j = 0;j < 4 ; j++){
+    divMinitesChoises = document.createElement('div');
+    divMinitesChoises.className = "px-4 dropdown-item cursor-pointer hover:bg-gray-100";
+    hourBlock < 10 ?  divMinitesChoises.textContent = `0${hourBlock}:${j*15 === 0? "00" : j*15}`: divMinitesChoises.textContent = `${hourBlock}:${j*15 === 0? "00" : j*15}` ; 
+    dropdownchoises.appendChild(divMinitesChoises);
+    const itemsDropdown = document.querySelectorAll(".dropdown-item");
+    for(let i =0; i < itemsDropdown.length ; i++){
+        itemsDropdown[i].addEventListener("click", ()=>{
+          let nextTime = itemsDropdown[i].textContent.split(":")
+          NewTime =  `${Number(nextTime[1])===45?Number(nextTime[0]) + 1 : Number(nextTime[0])} : ${Number(nextTime[1]) + 15 === 60 ? nextTime[1] = "00" : Number(nextTime[1]) + 15}`
+          dropdownBtn.textContent = `${itemsDropdown[i].textContent} - ${NewTime}` ;
+          if(document.querySelector('input[name="dayChoice"][value="tomorrow"]').checked){
+            selectedTimeTomorrow = itemsDropdown[i].textContent;
+          }else {
+            selectedTime =  itemsDropdown[i].textContent;
+          }
+          
+          NewTimeAppear = NewTime
+          dropdownMenu.classList.add("hidden");
+          
+        })
+
+      }
+    
+  }
+}
+
+
+// BUILD MODAL PAGE WHEN CLICK IN "+"
+parentModel.className = "fixed inset-0 z-50 hidden flex justify-center items-center min-h-screen  ";
+model.className = "bg-white px-10 py-20 text-lg flex flex-col transform transition duration-200 scale-90 opacity-0 ";
+model.textContent = "Choise your Reservation time";
+titleModel.className = "text-center m-2";
+buttomDel.className ="p-2 m-4 bg-orange-400 text-white cursor-pointer mt-40 hover:bg-orange-300";
+buttomDel.textContent = "Close";
+buttomReserve.className ="p-2 m-4 bg-teal-800 text-white cursor-pointer mt-40 hover:bg-teal-700";
+buttomReserve.textContent = "Reserve";
+divButtoms.className = "flex justify-center items-center";
+
+model.appendChild(titleModel);
+model.appendChild(dropdown);
+model.appendChild(inputUser)
+divButtoms.appendChild(buttomDel);
+divButtoms.appendChild(buttomReserve);
+parentModel.appendChild(model);
+model.appendChild(divButtoms);
+content.appendChild(parentModel);
+
+addButton.addEventListener("click", function(){
+    parentModel.classList.remove("hidden");
+    dropdown.classList.remove("hidden")
+    setTimeout(() => {
+      model.classList.remove("scale-90", "opacity-0");
+      model.classList.add("scale-100", "opacity-100");
+      parentModel.classList.add("backdrop-blur-sm");
+    }, 100);
+})
+buttomDel.addEventListener("click", function(){
+  model.classList.remove("scale-100", "opacity-100");
+  model.classList.add("scale-90", "opacity-0");
+
+  setTimeout(() => {
+    parentModel.classList.add("hidden");
+    parentModel.classList.remove("backdrop-blur-sm");
+  }, 100);
+})
+parentModel.addEventListener("click", function(){
+  if(!parentModel.classList.contains("hidden")){
+      model.classList.remove("scale-100", "opacity-100");
+      model.classList.add("scale-90", "opacity-0");
+
+     setTimeout(() => {
+       parentModel.classList.add("hidden");
+       parentModel.classList.remove("backdrop-blur-sm");
+     }, 100);
+     }
+}
+)
+model.addEventListener("click", function(event) {
+  event.stopPropagation();
+});
+
+
+
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const dayName = days[today.getDay()];
+const dayNameTomrrow = days[tomorrow.getDay()];
+const months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+const monthName = months[today.getMonth()]; 
+const monthNameTomorrow = months[tomorrow.getMonth()]; 
+const NumberDate = today.getDate();
+const NumberDateTomorrow = tomorrow.getDate();
+
+
+// POSITION OF BORDER TIME
+let pxPer15Min = 28;
+let pxPerMinute = pxPer15Min / 15; 
+
+let hourOffset = toDayHour - calendarStartHour;
+let totalMinutes = (hourOffset * 60) + toDayMinute;
+
+if (hourOffset < 0) totalMinutes = 0;
+
+let totalSpaceOfBorders = hourOffset*2;
+let positionInPixels = totalMinutes * pxPerMinute;
+
+let borderTime = document.querySelectorAll(".borderTime");
+let exactTime = document.querySelector(".exactTime");
+exactTime.textContent = `${toDayHour} : ${toDayMinute}`;
+for(let i = 0; i < borderTime.length; i++){
+  borderTime[i].style.top = `${positionInPixels + totalSpaceOfBorders}px`;
+}
+console.log("Actual time:", `${toDayHour}:${toDayMinute}`);
+
+
+let DateNow = `${dayName} ${NumberDate} ${monthName}`;
+let DateNowTomorrow = `${dayNameTomrrow} ${NumberDateTomorrow} ${monthNameTomorrow}`;
+console.log(DateNowTomorrow)
+
+
+// BUILD HOURSBLOCK AND MINUTES BLOCK TODAY
+let Today = document.querySelector(".Today");
+Today.textContent = DateNow;
+let calendarContainer = document.querySelector(".calendarHour");
+for (let j = 0; j < workingHours; j++) {
+  let baseHour = 8;
+  
+  const hourBlock = document.createElement("div");
+  hourBlock.className = "border border-teal-600";
+  
+  let rawHour = baseHour + j;
+  let displayHour = rawHour > 23 ? 0 : rawHour;
+  displayHour = displayHour.toString().padStart(2, "0");
+
+for (let i = 0; i < 4; i++) {
+  const minuteBlock = document.createElement("div");
+  const timeText = document.createElement("span");
+  minuteBlock.className = "minuteBlock group cursor-pointer md:hover:border-1 border-gray-900 meduim-abouve rounded-sm ml-1 mr-2 p-[2px]";
+  if (j < hourOffset) {
+    minuteBlock.classList.add("bg-gray-300");
+  } else if (j === hourOffset) {
+    let blockIndex = Math.floor(toDayMinute / 15); // 0 → 3
+    if (i <= blockIndex) {
+      minuteBlock.classList.add("bg-gray-300");
+    }
+  }
+  timeText.className = "md:invisible md:group-hover:visible text-sm p-0 ml-5";
+  let displayMinutes = (i * 15).toString().padStart(2, "0");
+  timeText.textContent = `${displayHour}:${displayMinutes}`;
+
+  minuteBlock.appendChild(timeText);
+  hourBlock.appendChild(minuteBlock);
+}
+  calendarContainer.appendChild(hourBlock); 
+}
+
+
+
+// ALERT FUNCTION
+const alertCalendar = document.querySelector(".alertCalendar");
+function alertFunction(){
+   alertCalendar.classList.remove("hidden");
+   alertCalendar.classList.remove("opacity-0","scale-90");
+   alertCalendar.classList.add("opacity-100", "scale-100");
+   alertCalendar.classList.add('bg-amber-300')
+   setTimeout(()=>{
+     alertCalendar.classList.remove("opacity-100","scale-100");
+     alertCalendar.classList.add("opacity-0","scale-90")
+   },4000)
+   setTimeout(() => {  
+      alertCalendar.classList.add("hidden"); 
+   },5000)
+}
+
+
+// Minutes BLOCKS IN TODAY CALENDAR
+const minuteBlock = document.querySelectorAll(".minuteBlock")
+for(let i = 0 ;i<minuteBlock.length ; i++){
+  minuteBlock[i].addEventListener("click", () => {
+    document.querySelector('input[name="dayChoice"][value="today"]').checked = true;
+    if(minuteBlock[i].classList.contains("bg-amber-400")){
+      alertCalendar.textContent = "this block already reserved";
+      alertFunction();
+
+    }else {
+          const selected = minuteBlock[i].textContent.trim();
+
+          parentModel.classList.remove("hidden");
+          dropdown.classList.remove("hidden");
+      
+          setTimeout(() => {
+            model.classList.remove("scale-90", "opacity-0");
+            model.classList.add("scale-100", "opacity-100");
+            parentModel.classList.add("backdrop-blur-sm");
+          }, 100);
+      
+          const itemsDropdown = document.querySelectorAll(".dropdown-item");
+          itemsDropdown.forEach(item => {
+            if (item.textContent.trim() === selected) {
+              item.click();
+            }
+          });
+          }
+  });
+ 
+}
+
+
+
+
+
+
+
+
+
+// SWITCH BETWEEN TODAY AND TOMORROW CALENDAR && PICK UP THE DATA
+nextBtn = document.querySelector(".nextSvg");
+backBtn = document.querySelector(".backSvg");
+calendarContainerTommorow = document.querySelector(".calendarHour-tommorow")
+const savedData = JSON.parse(localStorage.getItem("reservations")) || [];
+nextBtn.addEventListener("click", () => {
+  calendarContainer.classList.add("hidden");
+  calendarContainerTommorow.classList.remove("hidden");
+  Today.textContent = DateNowTomorrow;
+  console.log(savedData)
+  for(let i = 0 ; i < savedData.length ; i++){
+    if (savedData[i][2] === Today.textContent) {
+      for(let j = 0; j < minuteBlockTomorrow.length ; j++) {
+        console.log(savedData[i][0] === minuteBlockTomorrow[j].textContent)
+        if(savedData[i][0] === minuteBlockTomorrow[j].textContent){
+          minuteBlockTomorrow[j].classList.contains('bg-gray-300')? minuteBlockTomorrow[j].classList.remove('bg-gray-300') : false;
+          minuteBlockTomorrow[j].classList.add('bg-amber-400');
+          minuteBlockTomorrow[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
+          break;
+        }
+      }
+    }
+  }
+})
+backBtn.addEventListener("click", () => {
+  calendarContainer.classList.remove("hidden");
+  calendarContainerTommorow.classList.add("hidden");
+  Today.textContent = DateNow;
+  for(let i = 0 ; i < savedData.length ; i++){
+    if (savedData[i][2] === Today.textContent) {
+      for(let j = 0; j < minuteBlock.length ; j++) {
+        console.log(savedData[i][0] === minuteBlock[j].textContent)
+        if(savedData[i][0] === minuteBlock[j].textContent){
+          minuteBlock[j].classList.contains('bg-gray-300')? minuteBlock[j].classList.remove('bg-gray-300') : false;
+          minuteBlock[j].classList.add('bg-amber-400');
+          minuteBlock[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
+          break;
+        }
+      }
+    }
+  }
+})
+
+
+// BUILD HOURSBLOCK AND MINUTES BLOCK Tomoeeow
+for (let j = 0; j < workingHours; j++) {
+  let baseHour = 8;
+  
+  const hourBlock = document.createElement("div");
+  hourBlock.className = "border border-teal-600";
+  
+  let rawHour = baseHour + j;
+  let displayHour = rawHour > 23 ? 0 : rawHour;
+  displayHour = displayHour.toString().padStart(2, "0");
+
+for (let i = 0; i < 4; i++) {
+  const minuteBlockTomorrow = document.createElement("div");
+  const timeText = document.createElement("span");
+  minuteBlockTomorrow.className = "minuteBlockTomorrow group cursor-pointer md:hover:border-1 border-gray-900 meduim-abouve rounded-sm ml-1 mr-2 p-[2px]";
+  if (j < hourOffset) {
+    minuteBlockTomorrow.classList.add("bg-gray-300");
+  } else if (j === hourOffset) {
+    let blockIndex = Math.floor(toDayMinute / 15); // 0 → 3
+    if (i <= blockIndex) {
+      minuteBlockTomorrow.classList.add("bg-gray-300");
+    }
+  }
+  timeText.className = "md:invisible md:group-hover:visible text-sm p-0 ml-5";
+  let displayMinutes = (i * 15).toString().padStart(2, "0");
+  timeText.textContent = `${displayHour}:${displayMinutes}`;
+
+  minuteBlockTomorrow.appendChild(timeText);
+  hourBlock.appendChild(minuteBlockTomorrow);
+}
+  calendarContainerTommorow.appendChild(hourBlock); 
+}
+
+
+
+
+
+// Minutes BLOCKS IN TOMORROW CALENDAR
+const minuteBlockTomorrow = document.querySelectorAll(".minuteBlockTomorrow")
+for(let i = 0 ;i<minuteBlockTomorrow.length ; i++){
+  minuteBlockTomorrow[i].addEventListener("click", () => {
+    document.querySelector('input[name="dayChoice"][value="tomorrow"]').checked = true;
+    if(minuteBlockTomorrow[i].classList.contains("bg-amber-400")){
+      alertCalendar.textContent = "this block already reserved";
+      alertFunction();
+
+    }else {
+          const selected = minuteBlockTomorrow[i].textContent.trim();
+
+          parentModel.classList.remove("hidden");
+          dropdown.classList.remove("hidden");
+      
+          setTimeout(() => {
+            model.classList.remove("scale-90", "opacity-0");
+            model.classList.add("scale-100", "opacity-100");
+            parentModel.classList.add("backdrop-blur-sm");
+          }, 100);
+      
+          const itemsDropdown = document.querySelectorAll(".dropdown-item");
+          itemsDropdown.forEach(item => {
+            if (item.textContent.trim() === selected) {
+              item.click();
+            }
+          });
+          }
+  });
+// BUTTON RESERVE CONDITIONS FOR TOMORROW
+
+}
+
+
+buttomReserve.addEventListener("click", () => {
+  const name = inputUser.value.trim();
+  const isValidName = /^[a-zA-Z\s]{3,}$/.test(name);
+  const selectedDay = document.querySelector('input[name="dayChoice"]:checked')?.value;
+
+  if (!selectedDay) {
+    alertCalendar.textContent = "Please select a day (today or tomorrow)";
+    parentModel.classList.add("hidden");
+    alertFunction();
+    return;
+  }
+
+  if (!isValidName) {
+    alertCalendar.textContent = "Please write your full name (letters only, min 3 characters, no symbols)";
+    parentModel.classList.add("hidden");
+    alertFunction();
+    return;
+  }
+
+  let targetBlocks, selectedTimeValue, currentDate;
+
+  if (selectedDay === "today") {
+    targetBlocks = document.querySelectorAll(".minuteBlock");
+    selectedTimeValue = selectedTime;
+    currentDate = DateNow;
+  } else {
+    targetBlocks = document.querySelectorAll(".minuteBlockTomorrow");
+    selectedTimeValue = selectedTimeTomorrow;
+    currentDate = DateNowTomorrow;
+  }
+
+  if (!selectedTimeValue) {
+    alertCalendar.textContent = "You didn't choose any reservation time";
+    parentModel.classList.add("hidden");
+    alertFunction();
+    return;
+  }
+
+  const alreadyReserved = Array.from(targetBlocks).some(block => {
+    const reservedRegex = new RegExp(`Reserved By\\s+${name.trim()}`, "i");
+    return reservedRegex.test(block.textContent.trim()) && !block.textContent.trim().startsWith(selectedTimeValue);
+  });
+
+  if (alreadyReserved) {
+    alertCalendar.textContent = "YOU CAN'T RESERVE 2 TIMES";
+    parentModel.classList.add("hidden");
+    alertFunction();
+    return;
+  }
+
+  let matched = false;
+
+  for (let i = 0; i < targetBlocks.length; i++) {
+    const block = targetBlocks[i];
+    const blockText = block.textContent.trim();
+
+    if (blockText.startsWith(selectedTimeValue)) {
+      if (block.classList.contains("bg-gray-300") && selectedDay === "today") {
+        alertCalendar.textContent = "THIS TIME IS NOT AVAILABLE!";
+        parentModel.classList.add("hidden");
+        alertFunction();
+        matched = true;
+        break;
+      }
+
+      block.textContent = `${blockText} - ${NewTimeAppear} - Reserved By ${name} at ${currentDate}`;
+      saveReservations.push([blockText,name,currentDate])
+      let oldData = JSON.parse(localStorage.getItem("reservations")) || [];
+      oldData.push([blockText, name, currentDate]);
+
+
+      // SAVE DATA IN LOCAL STORAGE
+      localStorage.setItem("reservations", JSON.stringify(oldData));
+      block.classList.remove("bg-gray-300");
+      block.classList.add("bg-amber-400");
+      alertCalendar.textContent = "Your reservation is done";
+      parentModel.classList.add("hidden");
+      alertFunction();
+      matched = true;
+      break;
+    }
+  }
+
+  if (!matched) {
+    alertCalendar.textContent = "Time slot not found or invalid.";
+    parentModel.classList.add("hidden");
+    alertFunction();
+  }
+
+  parentModel.classList.add("hidden");
+  selectedTime = null;
+  selectedTimeTomorrow = null;
+  inputUser.value = "";
+  console.log(saveReservations)
+  console.log(blockText)
+
+});
+
+for(let i = 0 ; i < savedData.length ; i++){
+    if (savedData[i][2] === Today.textContent) {
+      for(let j = 0; j < minuteBlock.length ; j++) {
+        console.log(savedData[i][0] === minuteBlock[j].textContent)
+        if(savedData[i][0] === minuteBlock[j].textContent){
+          minuteBlock[j].classList.contains('bg-gray-300')? minuteBlock[j].classList.remove('bg-gray-300') : false;
+          minuteBlock[j].classList.add('bg-amber-400');
+          minuteBlock[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
+          break;
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+//RESERVTION DONE IN TWO PLACES AND THAT DOESN'T WORK THE REASON OF THAT IS THE VARIABLE SELECTED TIME USED IT TWO DIFFERENT LOOPS FOR IN minutesBlock and minutesBlockTomorow
+
+
+
+
+
+
+
+
+// SIDEBAR SCRIPT
+let isMinimized = false;
+function toggleSidebar() {
+    let sideBar = document.querySelector(".sideBar");
+    let menuButtons = document.querySelectorAll(".menuButtons");
+    let div = document.querySelectorAll(".divsOfMenuButtons");
+    let siteName = document.querySelector(".font-extrabold");
+    let logo = document.getElementById("Capa_1");
+    let content = document.querySelector(".content");
+
+    if (sideBar.classList.contains("w-[300px]")) {
+        sideBar.classList.replace("w-[300px]", "w-[50px]");
+        content.classList.replace("ml-[300px]", "ml-[50px]")
+        for (let i = 0; i < menuButtons.length; i++) {
+            menuButtons[i].classList.remove("showText");
+            menuButtons[i].classList.add("hideText");
+        }
+        for (let i = 0; i < div.length; i++) {
+            div[i].classList.remove("space-x-2")
+        }
+        siteName.classList.add("hidden")
+        logo.classList.add("hidden")
+        isMinimized = true;
+    } else {
+        if (window.innerWidth <= 1120) {
+          return;
+        }
+        sideBar.classList.replace("w-[50px]", "w-[300px]");
+        content.classList.replace("ml-[50px]", "ml-[300px]");
+        for (let i = 0; i < menuButtons.length; i++) {
+            menuButtons[i].classList.remove("hideText");
+            menuButtons[i].classList.add("showText");
+        }
+        for (let i = 0; i < div.length; i++) {
+            div[i].classList.add("space-x-2")
+        }
+        siteName.classList.remove("hidden")
+        logo.classList.remove("hidden")
+        isMinimized = false;
+    }
+}
+
+if(window.innerWidth <= 1120 && !isMinimized){
+  toggleSidebar();
+}
+
+  
+let minimize = document.querySelector(".minimize");
+minimize.onclick = toggleSidebar;
+
+window.addEventListener("resize", function(){
+  if(window.innerWidth <= 1120 && !isMinimized){
+    toggleSidebar();
+  } else if (window.innerWidth > 1120 && isMinimized){
+    toggleSidebar();
+  }
+});
+
+}
+  }
+</script>
+<script src="main.js"></script>
+</div>
+</body>
+</html>
