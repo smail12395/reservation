@@ -190,11 +190,11 @@ window.addEventListener("load", function () {
     preloader.classList.add("opacity-0");
     logo.classList.add("opacity-0");
     mainContent.classList.remove("opacity-0");
-  }, 2000); 
+  }, 4000); 
 
   setTimeout(() => {
     preloader.style.display = "none";
-  }, 2000); 
+  }, 4000); 
 });
 
 
@@ -219,14 +219,28 @@ fetch("https://timeapi.io/api/Time/current/zone?timeZone=Africa/Casablanca")
 
     console.log("Actual time from timeapi.io:", `${hour}:${minute}`);
 
-    // GET THE RIGHT DATE
+    // ✅ استدعاء الدالة الرئيسية بعد الحصول على الوقت الحقيقي
     startCalendar(today);
   })
   .catch(err => {
     console.warn("API DOESN'T WORK");
-    
-    today = new Date();
-    startCalendar(today);
+
+    // ❌ لا تستخدم الوقت المحلي
+
+    // ⏳ انتظر 4 ثوانٍ ثم أظهر التنبيه مع زر إعادة التحميل
+    setTimeout(() => {
+      alertCalendar.innerHTML = `
+        <span>THE SERVER TIME API IS OFFLINE PLEASE CHECK YOUR CONNECTION</span><br>
+        <button class="bg-red-500 text-white px-2 py-1 mt-2 rounded" onclick="location.reload()">REFRESH PAGE</button>
+      `;
+          function alertFunctionServer(){
+   alertCalendar.classList.remove("hidden");
+   alertCalendar.classList.remove("opacity-0","scale-90");
+   alertCalendar.classList.add("opacity-100", "scale-100");
+   alertCalendar.classList.add('bg-amber-300')
+}
+      alertFunctionServer()
+    }, 4000);
   });
 
 function startCalendar(today) {
@@ -517,13 +531,6 @@ fetch("https://73debe01-445b-4642-9bb5-1243654ac337-00-1nuap4xq1bij2.picard.repl
    alertCalendar.classList.remove("opacity-0","scale-90");
    alertCalendar.classList.add("opacity-100", "scale-100");
    alertCalendar.classList.add('bg-amber-300')
-   setTimeout(()=>{
-     alertCalendar.classList.remove("opacity-100","scale-100");
-     alertCalendar.classList.add("opacity-0","scale-90")
-   },299500)
-   setTimeout(() => {  
-      alertCalendar.classList.add("hidden"); 
-   },300000)
 }
       alertFunctionServer()
   });
