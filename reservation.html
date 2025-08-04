@@ -223,25 +223,30 @@ fetch("https://timeapi.io/api/Time/current/zone?timeZone=Africa/Casablanca")
     // ✅ استدعاء الدالة الرئيسية بعد الحصول على الوقت الحقيقي
     startCalendar(today);
   })
-  .catch(err => {
-    console.warn("API DOESN'T WORK");
-    const alertCalendarConnection = document.querySelector(".alertCalendarConnection");
+.catch(err => {
+  console.warn("API DOESN'T WORK OR INTERNET IS DOWN");
 
+  // تحقق إن كان المستخدم فعليًا Offline
+  if (!navigator.onLine) {
+    console.log("User is offline");
+  }
 
-    setTimeout(() => {
-      alertCalendarConnection.innerHTML = `
-        <span>THE SERVER TIME API IS OFFLINE PLEASE CHECK YOUR CONNECTION</span><br>
-        <button class="bg-red-500 text-white px-2 py-1 mt-2 rounded" onclick="location.reload()">REFRESH PAGE</button>
-      `;
-          function alertFunctionServer(){
-   alertCalendarConnection.classList.remove("hidden");
-   alertCalendarConnection.classList.remove("opacity-0","scale-90");
-   alertCalendarConnection.classList.add("opacity-100", "scale-100");
-   alertCalendarConnection.classList.add('bg-amber-300')
-}
-      alertFunctionServer()
-    }, 4000);
-  });
+  const alertCalendarConnection = document.querySelector(".alertCalendarConnection");
+
+  setTimeout(() => {
+    alertCalendarConnection.innerHTML = `
+      <span>${!navigator.onLine ? "You are offline." : "The time API is offline."}</span><br>
+      <button class="bg-red-500 text-white px-2 py-1 mt-2 rounded" onclick="location.reload()">REFRESH PAGE</button>
+    `;
+
+    function alertFunctionServer() {
+      alertCalendarConnection.classList.remove("hidden", "opacity-0", "scale-90");
+      alertCalendarConnection.classList.add("opacity-100", "scale-100", "bg-amber-300");
+    }
+
+    alertFunctionServer();
+  }, 5000);
+});
 
 function startCalendar(today) {
 
