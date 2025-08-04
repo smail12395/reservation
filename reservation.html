@@ -499,12 +499,20 @@ backBtn = document.querySelector(".backSvg");
 calendarContainerTommorow = document.querySelector(".calendarHour-tommorow")
 let savedData = [];
 fetch("https://73debe01-445b-4642-9bb5-1243654ac337-00-1nuap4xq1bij2.picard.replit.dev/reservations")
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) {
+      throw new Error("Server returned an error");
+    }
+    return res.json();
+  })
   .then(data => {
     savedData = data;
-
-    // Run this when the page loads to highlight current day blocks
-    renderTodayReservations();
+    renderTodayReservations(); // ✅ إذا تم جلب البيانات بنجاح
+  })
+  .catch(error => {
+    console.error("Fetch error:", error);
+    alertCalendar.textContent = "THE SERVER DOESN'T WORK";
+    alertFunction();
   });
 
 nextBtn.addEventListener("click", () => {
