@@ -512,7 +512,19 @@ fetch("https://73debe01-445b-4642-9bb5-1243654ac337-00-1nuap4xq1bij2.picard.repl
   .catch(error => {
     console.error("Fetch error:", error);
     alertCalendar.textContent = "THE SERVER DOESN'T WORK";
-    alertFunction();
+    function alertFunction(){
+   alertCalendar.classList.remove("hidden");
+   alertCalendar.classList.remove("opacity-0","scale-90");
+   alertCalendar.classList.add("opacity-100", "scale-100");
+   alertCalendar.classList.add('bg-amber-300')
+   setTimeout(()=>{
+     alertCalendar.classList.remove("opacity-100","scale-100");
+     alertCalendar.classList.add("opacity-0","scale-90")
+   },299500)
+   setTimeout(() => {  
+      alertCalendar.classList.add("hidden"); 
+   },300000)
+}
   });
 
 nextBtn.addEventListener("click", () => {
