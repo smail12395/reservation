@@ -498,17 +498,26 @@ nextBtn = document.querySelector(".nextSvg");
 backBtn = document.querySelector(".backSvg");
 calendarContainerTommorow = document.querySelector(".calendarHour-tommorow")
 const savedData = JSON.parse(localStorage.getItem("reservations")) || [];
+let savedData = [];
+fetch("https://your-replit-name.replit.dev/reservations")
+  .then(res => res.json())
+  .then(data => {
+    savedData = data;
+
+    // Run this when the page loads to highlight current day blocks
+    renderTodayReservations();
+  });
+
 nextBtn.addEventListener("click", () => {
   calendarContainer.classList.add("hidden");
   calendarContainerTommorow.classList.remove("hidden");
   Today.textContent = DateNowTomorrow;
-  console.log(savedData)
+
   for(let i = 0 ; i < savedData.length ; i++){
     if (savedData[i][2] === Today.textContent) {
       for(let j = 0; j < minuteBlockTomorrow.length ; j++) {
-        console.log(savedData[i][0] === minuteBlockTomorrow[j].textContent)
         if(savedData[i][0] === minuteBlockTomorrow[j].textContent){
-          minuteBlockTomorrow[j].classList.contains('bg-gray-300')? minuteBlockTomorrow[j].classList.remove('bg-gray-300') : false;
+          minuteBlockTomorrow[j].classList.remove('bg-gray-300');
           minuteBlockTomorrow[j].classList.add('bg-amber-400');
           minuteBlockTomorrow[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
           break;
@@ -517,16 +526,22 @@ nextBtn.addEventListener("click", () => {
     }
   }
 })
+
 backBtn.addEventListener("click", () => {
   calendarContainer.classList.remove("hidden");
   calendarContainerTommorow.classList.add("hidden");
   Today.textContent = DateNow;
+  renderTodayReservations();
+})
+
+
+
+function renderTodayReservations() {
   for(let i = 0 ; i < savedData.length ; i++){
     if (savedData[i][2] === Today.textContent) {
       for(let j = 0; j < minuteBlock.length ; j++) {
-        console.log(savedData[i][0] === minuteBlock[j].textContent)
         if(savedData[i][0] === minuteBlock[j].textContent){
-          minuteBlock[j].classList.contains('bg-gray-300')? minuteBlock[j].classList.remove('bg-gray-300') : false;
+          minuteBlock[j].classList.remove('bg-gray-300');
           minuteBlock[j].classList.add('bg-amber-400');
           minuteBlock[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
           break;
@@ -534,7 +549,9 @@ backBtn.addEventListener("click", () => {
       }
     }
   }
-})
+}
+
+    
 
 
 // BUILD HOURSBLOCK AND MINUTES BLOCK Tomoeeow
@@ -674,28 +691,45 @@ buttomReserve.addEventListener("click", () => {
       }
 
       block.textContent = `${blockText} - ${NewTimeAppear} - Reserved By ${name} at ${currentDate}`;
-      saveReservations.push([blockText,name,currentDate])
-      let oldData = JSON.parse(localStorage.getItem("reservations")) || [];
-      oldData.push([blockText, name, currentDate]);
+      saveReservations.push([blockText, name, currentDate]);
+        
 
 
-      // SAVE DATA IN LOCAL STORAGE
-      localStorage.setItem("reservations", JSON.stringify(oldData));
-      block.classList.remove("bg-gray-300");
-      block.classList.add("bg-amber-400");
-      alertCalendar.textContent = "Your reservation is done";
-      parentModel.classList.add("hidden");
-      alertFunction();
-      matched = true;
-      break;
-    }
-  }
-
-  if (!matched) {
-    alertCalendar.textContent = "Time slot not found or invalid.";
+fetch("https://73debe01-445b-4642-9bb5-1243654ac337-00-1nuap4xq1bij2.picard.replit.dev/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify([blockText, name, currentDate])
+})
+.then(res => {
+  if (res.ok) {
+    block.classList.remove("bg-gray-300");
+    block.classList.add("bg-amber-400");
+    alertCalendar.textContent = "Your reservation is done";
     parentModel.classList.add("hidden");
     alertFunction();
   }
+});
+
+matched = true;
+break;
+    }
+  }
+
+
+if (!matched) {
+  alertCalendar.textContent = "Time slot not found or invalid.";
+  parentModel.classList.add("hidden");
+  alertFunction();
+}
+
+parentModel.classList.add("hidden");
+selectedTime = null;
+selectedTimeTomorrow = null;
+inputUser.value = "";
+console.log(saveReservations);
+console.log(blockText);
 
   parentModel.classList.add("hidden");
   selectedTime = null;
@@ -708,17 +742,17 @@ buttomReserve.addEventListener("click", () => {
 
 for(let i = 0 ; i < savedData.length ; i++){
     if (savedData[i][2] === Today.textContent) {
-      for(let j = 0; j < minuteBlock.length ; j++) {
-        console.log(savedData[i][0] === minuteBlock[j].textContent)
-        if(savedData[i][0] === minuteBlock[j].textContent){
-          minuteBlock[j].classList.contains('bg-gray-300')? minuteBlock[j].classList.remove('bg-gray-300') : false;
-          minuteBlock[j].classList.add('bg-amber-400');
-          minuteBlock[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
+      for(let j = 0; j < minuteBlockTomorrow.length ; j++) {
+        if(savedData[i][0] === minuteBlockTomorrow[j].textContent){
+          minuteBlockTomorrow[j].classList.remove('bg-gray-300');
+          minuteBlockTomorrow[j].classList.add('bg-amber-400');
+          minuteBlockTomorrow[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
           break;
         }
       }
     }
   }
+})
 
 
 
