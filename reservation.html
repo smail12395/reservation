@@ -176,6 +176,7 @@
 
 
     <div class="alertCalendar transition-all duration-500 transform fixed z-50  bottom-0 left-0 m-4 p-4 opacity-0 scale-90 hidden"></div>
+     <div class="alertCalendarConnection transition-all duration-500 transform fixed z-50  bottom-0 left-0 m-4 p-4 opacity-0 scale-90 hidden"></div>
   </section>
 </div>
 
@@ -224,20 +225,21 @@ fetch("https://timeapi.io/api/Time/current/zone?timeZone=Africa/Casablanca")
   })
   .catch(err => {
     console.warn("API DOESN'T WORK");
+    const alertCalendarConnection = document.querySelector(".alertCalendarConnection");
 
     // ❌ لا تستخدم الوقت المحلي
 
     // ⏳ انتظر 4 ثوانٍ ثم أظهر التنبيه مع زر إعادة التحميل
     setTimeout(() => {
-      alertCalendar.innerHTML = `
+      alertCalendarConnection.innerHTML = `
         <span>THE SERVER TIME API IS OFFLINE PLEASE CHECK YOUR CONNECTION</span><br>
         <button class="bg-red-500 text-white px-2 py-1 mt-2 rounded" onclick="location.reload()">REFRESH PAGE</button>
       `;
           function alertFunctionServer(){
-   alertCalendar.classList.remove("hidden");
-   alertCalendar.classList.remove("opacity-0","scale-90");
-   alertCalendar.classList.add("opacity-100", "scale-100");
-   alertCalendar.classList.add('bg-amber-300')
+   alertCalendarConnection.classList.remove("hidden");
+   alertCalendarConnection.classList.remove("opacity-0","scale-90");
+   alertCalendarConnection.classList.add("opacity-100", "scale-100");
+   alertCalendarConnection.classList.add('bg-amber-300')
 }
       alertFunctionServer()
     }, 4000);
