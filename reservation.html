@@ -739,18 +739,7 @@ console.log(blockText);
 
 });
 
-for(let i = 0 ; i < savedData.length ; i++){
-    if (savedData[i][2] === Today.textContent) {
-      for(let j = 0; j < minuteBlockTomorrow.length ; j++) {
-        if(savedData[i][0] === minuteBlockTomorrow[j].textContent){
-          minuteBlockTomorrow[j].classList.remove('bg-gray-300');
-          minuteBlockTomorrow[j].classList.add('bg-amber-400');
-          minuteBlockTomorrow[j].textContent = `${savedData[i][0]} Reserved by ${savedData[i][1]}`;
-          break;
-        }
-      }
-    }
-  }
+
 
 
 
