@@ -220,13 +220,13 @@ fetch("https://timeapi.io/api/Time/current/zone?timeZone=Africa/Casablanca")
 
     console.log("Actual time from timeapi.io:", `${hour}:${minute}`);
 
-    // ✅ استدعاء الدالة الرئيسية بعد الحصول على الوقت الحقيقي
+    // ✅CALL THE MAIN FUNCTION AFTER GET THE RIGHT TIME
     startCalendar(today);
   })
 .catch(err => {
   console.warn("API DOESN'T WORK OR INTERNET IS DOWN");
 
-  // تحقق إن كان المستخدم فعليًا Offline
+  // CHECK I THE USER OFFLINE 
   if (!navigator.onLine) {
     console.log("User is offline");
   }
