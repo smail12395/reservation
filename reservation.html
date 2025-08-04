@@ -497,7 +497,6 @@ for(let i = 0 ;i<minuteBlock.length ; i++){
 nextBtn = document.querySelector(".nextSvg");
 backBtn = document.querySelector(".backSvg");
 calendarContainerTommorow = document.querySelector(".calendarHour-tommorow")
-const savedData = JSON.parse(localStorage.getItem("reservations")) || [];
 let savedData = [];
 fetch("https://your-replit-name.replit.dev/reservations")
   .then(res => res.json())
